@@ -34,17 +34,21 @@ export async function getManifest() {
       128: "./assets/icon-512.png",
     },
     permissions: ["tabs", "storage", "activeTab", "scripting"],
-    host_permissions: ["*://*/*"],
+    host_permissions: ["https://v.flomoapp.com/*"],
     content_scripts: [
       {
-        matches: ["<all_urls>"],
-        js: ["dist/contentScripts/index.global.js"],
+        matches: ["https://v.flomoapp.com/*"],
+        js: [
+          // "dist/contentScripts/index.global.js",
+          "./lib/toastify/toastify.js",
+        ],
+        css: ["./lib/toastify/toastify.css"],
       },
     ],
     web_accessible_resources: [
       {
         resources: ["dist/contentScripts/style.css"],
-        matches: ["<all_urls>"],
+        matches: ["https://v.flomoapp.com/*"],
       },
     ],
     content_security_policy: {

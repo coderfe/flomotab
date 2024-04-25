@@ -5,10 +5,6 @@ let memos = reactive<Memo[]>([]);
 let memo = ref<Memo | null>(null);
 const mainRef = ref<HTMLDivElement>();
 
-function getRandomMemo() {
-  const index = Math.floor(Math.random() * memos.length);
-  return memos[index];
-}
 onMounted(() => {
   applyTheme();
 
@@ -22,15 +18,25 @@ onMounted(() => {
           content: memo.content,
         });
     });
-    const randomMemo = getRandomMemo();
-    if (randomMemo) {
-      memo.value = randomMemo;
-    }
-    nextTick(() => {
-      formatHTML();
-    });
+    setMemo();
   });
 });
+
+function getRandomMemo() {
+  const index = Math.floor(Math.random() * memos.length);
+  return memos[index];
+}
+
+function setMemo() {
+  const randomMemo = getRandomMemo();
+  if (randomMemo) {
+    memo.value = randomMemo;
+  }
+  nextTick(() => {
+    formatHTML();
+  });
+}
+
 function applyTheme() {
   const prefersDarkMode = window.matchMedia(
     "(prefers-color-scheme: dark)"
@@ -44,7 +50,7 @@ function formatHTML() {
     var text = paragraphs[i].textContent;
     var replacedText = text!.replace(
       /(https:\/\/v\.flomoapp\.com[^\s]*)/g,
-      '<a title="$1" href="$1">笔记↗️</a>'
+      '<a title="$1" href="$1" target="_blank">笔记↗️</a>'
     );
     paragraphs[i].innerHTML = replacedText;
   }
@@ -63,12 +69,30 @@ function formatHTML() {
       v-html="memo?.content"
     />
   </main>
-  <nav class="fixed bottom-4 right-1/2">
+  <nav class="fixed flex bottom-4 gap-4 right-1/2 ml-1/2 text-lg select-none">
     <a
-      title="Open in flomo"
-      class="flomo-btn block w-6 h-6 bg-contain bg-no-repeat rounded-md ring-1 ring-black/10 shadow-md"
+      title="打开flomo"
+      class="w-6 h-6 cursor-pointer flex justify-center items-center"
       :href="`https://v.flomoapp.com/mine/?memo_id=${memo?.slug}`"
-    ></a>
+      target="_blank"
+    >
+      🔗
+    </a>
+    <a
+      title="再来一条"
+      class="w-6 h-6 cursor-pointer flex justify-center items-center"
+      @click="setMemo"
+    >
+      🆕
+    </a>
+    <a
+      title="反馈"
+      class="w-6 h-6 cursor-pointer flex justify-center items-center"
+      href="https://github.com/coderfe/flomotab/issues"
+      target="_blank"
+    >
+      ℹ️
+    </a>
   </nav>
 </template>
 

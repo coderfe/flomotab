@@ -54,6 +54,7 @@ onMessage("sync-memos", ({ data: { memos } }) => {
 });
 
 browser.action.onClicked.addListener(async (tab) => {
+  if (!tab.url?.includes("v.flomoapp.com")) return;
   browser.scripting.executeScript({
     target: {
       tabId: tab.id!,
