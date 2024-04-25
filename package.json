@@ -1,7 +1,7 @@
 {
-  "name": "flomo-tab",
+  "name": "flomotab",
   "displayName": "flomotab",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "description": "Unofficial flomo extension for browser, show memo in new tab",
   "scripts": {

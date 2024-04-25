@@ -1,8 +1,8 @@
-# flomo tab
+# flomotab
 
 ## 安装
 
-在 Release 页面下载最新压缩文件，Chrome 浏览器加载已解压的扩展程序，选择该目录即可。
+在 [Release](https://github.com/coderfe/flomotab/releases) 页面下载最新压缩文件，Chrome 浏览器加载已解压的扩展程序，选择该目录即可。
 
 ### 如何使用
 
