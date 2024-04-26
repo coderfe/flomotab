@@ -4,6 +4,7 @@
   "version": "0.0.2",
   "private": true,
   "description": "Unofficial flomo extension for browser, show memo in new tab",
+  "homepage": "https://github.com/coderfe/flomotab",
   "scripts": {
     "dev": "npm run clear && cross-env NODE_ENV=development run-p dev:*",
     "dev-firefox": "npm run clear && cross-env NODE_ENV=development EXTENSION=firefox run-p dev:*",
@@ -28,6 +29,9 @@
     "test:e2e": "playwright test",
     "postinstall": "simple-git-hooks",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "toastify-js": "^1.12.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.8.1",
@@ -73,8 +77,5 @@
   },
   "lint-staged": {
     "*": "eslint --fix"
-  },
-  "dependencies": {
-    "toastify-js": "^1.12.0"
   }
 }
