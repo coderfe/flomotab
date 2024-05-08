@@ -1,58 +1,59 @@
 <script setup lang="ts">
-import type { Memo } from "~/global";
+import type { Memo } from '~/global'
 
-let memos = reactive<Memo[]>([]);
-let memo = ref<Memo | null>(null);
-const mainRef = ref<HTMLDivElement>();
+const memos = reactive<Memo[]>([])
+const memo = ref<Memo | null>(null)
+const mainRef = ref<HTMLDivElement>()
 
 onMounted(() => {
-  applyTheme();
+  applyTheme()
 
-  // @ts-ignore
+  // @ts-expect-error bugfix
   browser.default.storage.local.get().then((res) => {
-    const data: Memo[] = res["flomo-tab-memos"] || [];
+    const data: Memo[] = res['flomo-tab-memos'] || []
     data.map((memo) => {
-      !memo.deleted_at &&
-        memos.push({
-          ...memo,
-          content: memo.content,
-        });
-    });
-    setMemo();
-  });
-});
+      !memo.deleted_at
+      && memos.push({
+        ...memo,
+        content: memo.content,
+      })
+      return true
+    })
+    setMemo()
+  })
+})
 
 function getRandomMemo() {
-  const index = Math.floor(Math.random() * memos.length);
-  return memos[index];
+  const index = Math.floor(Math.random() * memos.length)
+  return memos[index]
 }
 
 function setMemo() {
-  const randomMemo = getRandomMemo();
-  if (randomMemo) {
-    memo.value = randomMemo;
-  }
+  const randomMemo = getRandomMemo()
+  if (randomMemo)
+    memo.value = randomMemo
+
   nextTick(() => {
-    formatHTML();
-  });
+    formatHTML()
+  })
 }
 
 function applyTheme() {
   const prefersDarkMode = window.matchMedia(
-    "(prefers-color-scheme: dark)"
-  ).matches;
-  const body = document.body;
-  body.classList.toggle("dark", prefersDarkMode);
+    '(prefers-color-scheme: dark)',
+  ).matches
+  const body = document.body
+  body.classList.toggle('dark', prefersDarkMode)
 }
 function formatHTML() {
-  const paragraphs = document.getElementsByTagName("p");
-  for (var i = 0; i < paragraphs.length; i++) {
-    var text = paragraphs[i].textContent;
-    var replacedText = text!.replace(
+  const paragraphs = document.getElementsByTagName('p')
+  for (let i = 0; i < paragraphs.length; i++) {
+    const text = paragraphs[i].textContent
+    const replacedText = text!.replace(
       /(https:\/\/v\.flomoapp\.com[^\s]*)/g,
-      '<a title="$1" href="$1" target="_blank">笔记↗️</a>'
-    );
-    paragraphs[i].innerHTML = replacedText;
+      '<a title="$1" href="$1" target="_blank">笔记↗️</a>',
+    )
+    paragraphs[i].innerHTML = replacedText
   }
 }
 </script>
@@ -62,10 +63,12 @@ function formatHTML() {
     ref="mainRef"
     class="w-screen h-screen flex justify-center items-center text-lg text-[#121212] bg-[#fafafa] dark:text-[#d9d9d9] dark:bg-[#121212]"
   >
-    <div v-if="memos.length == 0">请先同步</div>
+    <div v-if="memos.length === 0">
+      请先同步
+    </div>
     <div
       v-else
-      class="memo max-w-[320px] leading-10 font-sans"
+      class="memo max-w-[600px] leading-10 font-sans"
       v-html="memo?.content"
     />
   </main>
